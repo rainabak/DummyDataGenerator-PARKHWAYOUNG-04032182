@@ -1,4 +1,5 @@
 #include "RandomUtil.h"
+#include <random>
 
 RandomUtil::RandomUtil()
     : m_engine(std::random_device{}())
@@ -7,10 +8,12 @@ RandomUtil::RandomUtil()
 
 int RandomUtil::nextInt(int min, int max)
 {
-    return 0;
+    std::uniform_int_distribution<int> dist(min, max);
+    return dist(m_engine);
 }
 
 double RandomUtil::nextDouble(double min, double max)
 {
-    return 0.0;
+    std::uniform_real_distribution<double> dist(min, max);
+    return dist(m_engine);
 }
