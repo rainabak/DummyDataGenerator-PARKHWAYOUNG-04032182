@@ -26,6 +26,9 @@ private:
     void        writeFile(const std::string& path, const std::string& json) const;
     std::string buildJson(const std::string& items, int nextId)             const;
     void        ensureDataDir()                                             const;
+    void        logSaveStart(const std::string& label,
+                              size_t count, bool append)                    const;
+    void        logSaveComplete(const std::string& path)                    const;
 
     std::string serializeSample(const Sample& s)              const;
     std::string serializeOrder(const Order& o)                const;

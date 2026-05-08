@@ -55,41 +55,8 @@ void ConsoleView::showOverwriteWarning() const
 
 // ── 입력 ──────────────────────────────────────────────────────────────────────
 
-int ConsoleView::readMainMenuChoice() const
-{
-    int choice = -1;
-    while (true)
-    {
-        if (!(std::cin >> choice))
-        {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << " [오류] 숫자를 입력하세요 > ";
-            continue;
-        }
-        if (choice >= 0 && choice <= 2) break;
-        std::cout << " [오류] 0~2 사이의 숫자를 입력하세요 > ";
-    }
-    return choice;
-}
-
-int ConsoleView::readMenuChoice() const
-{
-    int choice = -1;
-    while (true)
-    {
-        if (!(std::cin >> choice))
-        {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << " [오류] 숫자를 입력하세요 > ";
-            continue;
-        }
-        if (choice >= 0 && choice <= 4) break;
-        std::cout << " [오류] 0~4 사이의 숫자를 입력하세요 > ";
-    }
-    return choice;
-}
+int ConsoleView::readMainMenuChoice() const { return readIntInRange(0, 2); }
+int ConsoleView::readMenuChoice()     const { return readIntInRange(0, 4); }
 
 int ConsoleView::readCount(int max, const std::string& target) const
 {
@@ -134,4 +101,24 @@ void ConsoleView::pause() const
     std::cout << "\n 계속하려면 엔터를 누르세요...";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::cin.get();
+}
+
+// ── private ──────────────────────────────────────────────────────────────────
+
+int ConsoleView::readIntInRange(int min, int max) const
+{
+    int choice = -1;
+    while (true)
+    {
+        if (!(std::cin >> choice))
+        {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << " [오류] 숫자를 입력하세요 > ";
+            continue;
+        }
+        if (choice >= min && choice <= max) break;
+        std::cout << " [오류] " << min << "~" << max << " 사이의 숫자를 입력하세요 > ";
+    }
+    return choice;
 }

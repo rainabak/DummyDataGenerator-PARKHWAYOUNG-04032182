@@ -4,7 +4,7 @@
 
 namespace
 {
-    static const std::vector<std::string> kCustomerNames = {
+    const std::vector<std::string> kCustomerNames = {
         "삼성전자", "SK하이닉스", "인텔", "TSMC", "AMD",
         "마이크론", "퀄컴", "엔비디아", "도시바", "웨스턴디지털",
     };
@@ -16,7 +16,7 @@ namespace
     };
 
     // 가중치 합계: 100
-    static const StatusWeight kOrderStatuses[] = {
+    const StatusWeight kOrderStatuses[] = {
         { "RESERVED",  30 },
         { "PRODUCING", 25 },
         { "CONFIRMED", 20 },
@@ -24,8 +24,8 @@ namespace
         { "REJECTED",  10 },
     };
 
-    static const int kQuantityMin = 1;
-    static const int kQuantityMax = 20;
+    constexpr int kQuantityMin = 1;
+    constexpr int kQuantityMax = 20;
 }
 
 OrderGenerator::OrderGenerator(RandomUtil& random)

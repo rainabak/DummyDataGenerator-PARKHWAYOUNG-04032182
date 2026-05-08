@@ -17,4 +17,7 @@ public:
     int  readCount(int max, const std::string& target = "")     const;
     bool readOverwrite()                                         const;
     void pause()                                                 const;
+
+private:
+    int readIntInRange(int min, int max) const;
 };

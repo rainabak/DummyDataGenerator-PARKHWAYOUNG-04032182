@@ -44,12 +44,10 @@ void DummyDataController::handleOrder()
     if (overwrite) m_view.showOverwriteWarning();
 
     if (!m_service.generateOrders({ count, overwrite }))
-    {
         m_view.showError("Order 생성 실패 — 먼저 Sample 데이터를 생성하세요.");
-        m_view.pause();
-        return;
-    }
-    m_view.showResult("Order", count, "data/orders.json");
+    else
+        m_view.showResult("Order", count, "data/orders.json");
+
     m_view.pause();
 }
 
@@ -60,12 +58,10 @@ void DummyDataController::handleProductionLine()
     if (overwrite) m_view.showOverwriteWarning();
 
     if (!m_service.generateProductionLines({ count, overwrite }))
-    {
         m_view.showError("ProductionLine 생성 실패 — 먼저 Order 데이터를 생성하세요.");
-        m_view.pause();
-        return;
-    }
-    m_view.showResult("ProductionLine", count, "data/production_lines.json");
+    else
+        m_view.showResult("ProductionLine", count, "data/production_lines.json");
+
     m_view.pause();
 }
 

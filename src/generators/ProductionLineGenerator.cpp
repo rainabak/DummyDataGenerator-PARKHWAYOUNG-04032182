@@ -4,13 +4,13 @@
 
 namespace
 {
-    static const std::vector<std::string> kLineStatuses = {
+    const std::vector<std::string> kLineStatuses = {
         "IDLE", "RUNNING", "PAUSED", "DONE",
     };
 
-    static const int kProgressMin = 0;
-    static const int kProgressMax = 99;   // DONE이면 100으로 고정
-    static const int kProgressDone = 100;
+    constexpr int kProgressMin  = 0;
+    constexpr int kProgressMax  = 99;   // DONE이면 100으로 고정
+    constexpr int kProgressDone = 100;
 }
 
 ProductionLineGenerator::ProductionLineGenerator(RandomUtil& random)

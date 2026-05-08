@@ -32,4 +32,6 @@ private:
 
     static void applyProductNames(std::vector<Order>&                    orders,
                                   const std::map<int, std::string>& sampleNames);
+    int resolveStartId(const GeneratorConfig& config,
+                       const std::string&     filename) const;
 };

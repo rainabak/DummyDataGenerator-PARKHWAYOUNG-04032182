@@ -4,7 +4,7 @@
 
 namespace
 {
-    static const std::vector<std::string> kDescriptions = {
+    const std::vector<std::string> kDescriptions = {
         "A타입 반도체 검사 플랜",
         "B타입 고속 처리 플랜",
         "C타입 저전력 플랜",
@@ -15,12 +15,12 @@ namespace
         "H타입 다층 기판 검사 플랜",
     };
 
-    static const int kStockMin        = 0;
-    static const int kStockMax        = 50;
-    static const int kAvgTimeMin      = 2;
-    static const int kAvgTimeMax      = 12;
-    static const int kYieldMinX10     = 600;  // 60.0
-    static const int kYieldMaxX10     = 999;  // 99.9
+    constexpr int kStockMin    = 0;
+    constexpr int kStockMax    = 50;
+    constexpr int kAvgTimeMin  = 2;
+    constexpr int kAvgTimeMax  = 12;
+    constexpr int kYieldMinX10 = 600;  // 60.0
+    constexpr int kYieldMaxX10 = 999;  // 99.9
 }
 
 SampleGenerator::SampleGenerator(RandomUtil& random)
