@@ -1,4 +1,4 @@
-#include "SampleGenerator.h"
+﻿#include "SampleGenerator.h"
 #include <string>
 #include <vector>
 

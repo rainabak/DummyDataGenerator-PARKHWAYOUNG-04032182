@@ -1,0 +1,22 @@
+# Visual Studio
+.vs/
+*.user
+
+# Build output
+x64/
+x86/
+Debug/
+Release/
+*.obj
+*.pch
+*.idb
+*.pdb
+
+# Visual Studio project cache
+DummyDat.*/
+ipch/
+*.aps
+
+# Temporary files
+*.tmp
+*.bak
