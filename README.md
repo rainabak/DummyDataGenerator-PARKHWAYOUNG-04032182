@@ -266,3 +266,12 @@ DummyDataGenerator/
 ├── CLAUDE.md
 └── README.md
 ```
+
+## 테스트 화면
+<img width="942" height="853" alt="스크린샷 2026-05-08 152555" src="https://github.com/user-attachments/assets/ab708a63-5edc-4d4a-95f1-6c563d537508" />
+<img width="942" height="853" alt="스크린샷 2026-05-08 152606" src="https://github.com/user-attachments/assets/28668958-51b9-48d2-be03-9e758f0f68d0" />
+<img width="942" height="853" alt="스크린샷 2026-05-08 152610" src="https://github.com/user-attachments/assets/5ad85e25-54ac-48c6-b979-ccf8e3816c81" />
+<img width="942" height="853" alt="스크린샷 2026-05-08 152630" src="https://github.com/user-attachments/assets/151ffad0-bbe0-4101-8cab-ac56b510086b" />
+<img width="942" height="853" alt="스크린샷 2026-05-08 152639" src="https://github.com/user-attachments/assets/cbef950d-ba24-4225-b782-c0b333ee91de" />
+<img width="942" height="853" alt="스크린샷 2026-05-08 152656" src="https://github.com/user-attachments/assets/c8ae6517-1dc6-442d-a3a3-08aeb09f9919" />
+
