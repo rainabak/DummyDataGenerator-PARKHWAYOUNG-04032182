@@ -61,6 +61,7 @@ DummyDataGenerator PoC의 기능 검증 및 설계 준수 여부를 확인하는
 3. 생산 라인 관리
 4. 모니터링
 5. 출하 관리
+6. Dummy 데이터 생성
 0. 종료
 ```
 
@@ -543,6 +544,7 @@ DummyDataGenerator PoC의 기능 검증 및 설계 준수 여부를 확인하는
 main.cpp
   └─ Controller → Service → Repository → JsonFileStorage
   └─ Controller → View
+  └─ Controller → Generator → RandomUtil
 ```
 
 **판정**: 모든 역방향 의존성 부재 시 **PASS**
@@ -614,7 +616,449 @@ main.cpp
 
 ---
 
+## 11. Dummy 데이터 생성 검증
+
+### 11-1. 데이터 생성 기본 흐름 검증
+
+#### TC-11-A. Dummy 데이터 생성 메뉴 진입
+
+**목적**: 메인 메뉴에서 `6`을 선택하면 Dummy 데이터 생성 서브메뉴로 진입하는지 확인한다.
+
+**실행 순서**
+
+1. 프로그램 실행
+2. 메인 메뉴 → `6` 입력
+
+**기대 결과**
+
+```
+[ Dummy 데이터 생성 ] 서브메뉴가 출력된다.
+1. Sample 생성
+2. Order 생성
+3. ProductionLine 생성
+4. 전체 생성
+0. 돌아가기
+```
+
+**판정**: 서브메뉴 정상 출력 시 **PASS** / 메뉴 없음 또는 crash 시 **FAIL**
+
+---
+
+#### TC-11-B. 뒤로가기 처리
+
+**목적**: Dummy 데이터 생성 서브메뉴에서 `0` 입력 시 메인 메뉴로 복귀하는지 확인한다.
+
+**실행 순서**
+
+1. Dummy 데이터 생성 서브메뉴 진입
+2. `0` 입력
+
+**기대 결과**: 메인 메뉴로 복귀, 프로그램 종료 없음
+
+**판정**: 메인 메뉴 재출력 시 **PASS** / 프로그램 종료 시 **FAIL**
+
+---
+
+### 11-2. JSON 파일 생성 검증
+
+#### TC-12-A. Sample JSON 파일 생성 확인
+
+**목적**: Sample 생성 후 `data/samples.json`이 올바른 형식으로 저장되는지 확인한다.
+
+**사전 조건**: `data/samples.json`을 삭제한다.
+
+**실행 순서**
+
+1. Dummy 데이터 생성 → `1. Sample 생성`
+2. 수량 `10` 입력
+3. 덮어쓰기 여부 `N` 입력 (Overwrite)
+4. 생성 완료 후 `data/samples.json` 파일을 텍스트 편집기로 확인
+
+**기대 결과**
+
+- `data/samples.json` 파일이 생성된다.
+- 파일 최상위에 `"nextId"` 키가 존재한다.
+- `"items"` 배열에 10개의 객체가 존재한다.
+- 각 객체에 `id`, `name`, `description`, `stock`, `avgProductionTime`, `yield` 필드가 존재한다.
+- trailing comma가 없다.
+
+**판정**: 위 조건 모두 충족 시 **PASS** / 파일 미생성 또는 형식 불일치 시 **FAIL**
+
+---
+
+#### TC-12-B. Order JSON 파일 생성 확인
+
+**목적**: Order 생성 후 `data/orders.json`이 올바른 형식으로 저장되는지 확인한다.
+
+**사전 조건**: Sample 데이터 존재 상태. `data/orders.json`을 삭제한다.
+
+**실행 순서**
+
+1. Dummy 데이터 생성 → `2. Order 생성`
+2. 수량 `50` 입력
+3. 덮어쓰기 여부 `N` 입력 (Overwrite)
+4. `data/orders.json` 파일 확인
+
+**기대 결과**
+
+- `data/orders.json` 파일이 생성된다.
+- `"items"` 배열에 50개 객체가 존재한다.
+- 각 객체에 `id`, `sampleId`, `productName`, `customerName`, `quantity`, `status` 필드가 존재한다.
+- `sampleId` 값이 실제 존재하는 Sample ID 범위 내에 있다.
+
+**판정**: 위 조건 모두 충족 시 **PASS**
+
+---
+
+#### TC-12-C. ProductionLine JSON 파일 생성 확인
+
+**목적**: ProductionLine 생성 후 `data/production_lines.json`이 올바른 형식으로 저장되는지 확인한다.
+
+**사전 조건**: Sample, Order 데이터 존재 상태.
+
+**실행 순서**
+
+1. Dummy 데이터 생성 → `3. ProductionLine 생성`
+2. 수량 `30` 입력
+3. 덮어쓰기 여부 `N` 입력 (Overwrite)
+4. `data/production_lines.json` 파일 확인
+
+**기대 결과**
+
+- `data/production_lines.json` 파일이 생성된다.
+- `"items"` 배열에 30개 객체가 존재한다.
+- 각 객체에 `id`, `orderId`, `lineName`, `status`, `progress` 필드가 존재한다.
+- `status`가 `DONE`인 항목의 `progress` 값이 100이다.
+
+**판정**: 위 조건 모두 충족 시 **PASS**
+
+---
+
+### 11-3. 데이터 개수 검증
+
+#### TC-13-A. 생성 수량 정확성 — Sample
+
+**목적**: 입력한 수량과 실제 생성된 항목 수가 일치하는지 확인한다.
+
+**실행 순서**
+
+1. Overwrite 모드로 Sample `100`건 생성
+2. `data/samples.json` 열기
+3. `"items"` 배열의 항목 수를 직접 센다
+
+**기대 결과**: `"items"` 배열 내 객체 수 = 100
+
+**판정**: 정확히 100개이면 **PASS** / 다르면 **FAIL**
+
+---
+
+#### TC-13-B. 생성 수량 정확성 — Order
+
+**목적**: Order 1,000건 생성 시 정확히 1,000개가 저장되는지 확인한다.
+
+**실행 순서**
+
+1. Sample 존재 상태에서 Overwrite 모드로 Order `1000`건 생성
+2. `data/orders.json`의 `"nextId"` 값 확인
+3. `"items"` 배열 항목 수 확인
+
+**기대 결과**
+
+- `"items"` 배열 항목 수 = 1,000
+- `"nextId"` = 1,001
+
+**판정**: 수량과 nextId 모두 정확하면 **PASS**
+
+---
+
+#### TC-13-C. nextId 연속성 검증 (Append 모드)
+
+**목적**: Append 모드 반복 실행 시 `nextId`가 누락 없이 연속으로 증가하는지 확인한다.
+
+**실행 순서**
+
+1. Overwrite 모드로 Sample `10`건 생성 (nextId = 11)
+2. Append 모드로 Sample `5`건 추가 생성
+3. `data/samples.json` 확인
+
+**기대 결과**
+
+- 총 항목 수 = 15
+- `"nextId"` = 16
+- 11번째 항목의 `id` = 11, 15번째 항목의 `id` = 15 (중복 없음)
+
+**판정**: 항목 수, nextId, id 연속성 모두 충족 시 **PASS**
+
+---
+
+#### TC-13-D. 최솟값 / 최댓값 경계 입력
+
+**목적**: 수량 입력 경계값(1, 최대치)에서 정상 동작하는지 확인한다.
+
+**실행 순서 (최솟값)**
+
+1. Overwrite 모드로 Sample `1`건 생성
+2. `"items"` 항목 수 확인
+
+**기대 결과**: `"items"` = 1개
+
+**실행 순서 (최댓값)**
+
+1. Overwrite 모드로 Sample `1000`건 생성
+2. `"items"` 항목 수 확인
+
+**기대 결과**: `"items"` = 1,000개, crash 없음
+
+**판정**: 양쪽 모두 정상이면 **PASS** / crash 또는 수량 불일치 시 **FAIL**
+
+---
+
+### 11-4. 랜덤 상태값 검증
+
+#### TC-14-A. Order Status 분포 확인
+
+**목적**: Order 1,000건 생성 시 Status 분포가 가중치 정책(±10%p)에 부합하는지 확인한다.
+
+**실행 순서**
+
+1. Overwrite 모드로 Order `1000`건 생성
+2. `data/orders.json`에서 각 status 값의 개수를 수동으로 집계한다.
+
+**기대 결과 (허용 범위)**
+
+| 상태 | 목표 비율 | 허용 범위 |
+|------|------|------|
+| RESERVED | 30% | 200 ~ 400건 |
+| PRODUCING | 25% | 150 ~ 350건 |
+| CONFIRMED | 20% | 100 ~ 300건 |
+| RELEASE | 15% | 50 ~ 250건 |
+| REJECTED | 10% | 0 ~ 200건 |
+
+**판정**: 모든 상태가 허용 범위 내이면 **PASS** / 한 상태라도 범위 초과 시 **FAIL**
+
+---
+
+#### TC-14-B. ProductionLine DONE 상태 progress 고정값 확인
+
+**목적**: `status`가 `DONE`인 ProductionLine의 `progress`가 100으로 고정되는지 확인한다.
+
+**실행 순서**
+
+1. Overwrite 모드로 ProductionLine `200`건 생성
+2. `data/production_lines.json`에서 `"status": "DONE"` 항목을 찾는다.
+3. 해당 항목의 `progress` 값을 확인한다.
+
+**기대 결과**: `"status": "DONE"`인 모든 항목의 `"progress"` = 100
+
+**판정**: DONE인 항목 전부 progress=100이면 **PASS** / 하나라도 100이 아니면 **FAIL**
+
+---
+
+#### TC-14-C. Sample yield 범위 확인
+
+**목적**: Sample의 `yield` 값이 정의된 범위(60.0 ~ 99.9) 내에 있는지 확인한다.
+
+**실행 순서**
+
+1. Overwrite 모드로 Sample `100`건 생성
+2. `data/samples.json`에서 `yield` 값 전체를 검토한다.
+
+**기대 결과**: 모든 `yield` 값이 60.0 이상 99.9 이하
+
+**판정**: 범위 이탈 없으면 **PASS** / 범위 이탈 항목 존재 시 **FAIL**
+
+---
+
+#### TC-14-D. 동일 시드에서 다른 실행 결과 확인
+
+**목적**: 매 실행마다 다른 랜덤 데이터가 생성되는지 확인한다.
+
+**실행 순서**
+
+1. Overwrite 모드로 Sample `10`건 생성 → `samples.json` 내용 복사 보관
+2. 동일 수량으로 재실행 (Overwrite 모드)
+3. 두 결과를 비교한다.
+
+**기대 결과**: 두 결과가 완전히 동일하지 않음 (최소 1개 이상 필드 값 다름)
+
+**판정**: 다른 결과이면 **PASS** / 완전히 동일하면 **FAIL**
+
+---
+
+### 11-5. 파일 Overwrite 검증
+
+#### TC-15-A. Append 모드 — 기존 데이터 보존 확인
+
+**목적**: Append 모드에서 기존 데이터가 손실되지 않는지 확인한다.
+
+**실행 순서**
+
+1. Seed 데이터 상태 (Sample 3건, `nextId`: 4)
+2. Append 모드로 Sample `5`건 추가 생성
+3. `data/samples.json` 확인
+
+**기대 결과**
+
+- 기존 Sample (id: 1, 2, 3) 데이터가 그대로 존재한다.
+- 새 Sample (id: 4, 5, 6, 7, 8) 5건이 추가된다.
+- 총 항목 수 = 8
+- `"nextId"` = 9
+
+**판정**: 기존 데이터 보존 + 새 데이터 추가 확인 시 **PASS** / 기존 데이터 손실 시 **FAIL**
+
+---
+
+#### TC-15-B. Overwrite 모드 — 기존 데이터 완전 교체 확인
+
+**목적**: Overwrite 모드에서 기존 데이터가 완전히 교체되는지 확인한다.
+
+**실행 순서**
+
+1. Seed 데이터 상태 (Sample 3건, `nextId`: 4)
+2. Overwrite 모드 선택 → 확인 메시지에 `Y` 입력
+3. Sample `10`건 생성
+4. `data/samples.json` 확인
+
+**기대 결과**
+
+- 기존 Sample (id: 1, 2, 3) 데이터가 존재하지 않는다.
+- `"items"` 배열에 새 데이터 10건만 존재한다.
+- `"nextId"` = 11
+- 새 데이터의 id가 1부터 시작한다.
+
+**판정**: 위 조건 모두 충족 시 **PASS** / 기존 데이터 잔존 시 **FAIL**
+
+---
+
+#### TC-15-C. Overwrite 확인 메시지 `N` 입력 시 취소 확인
+
+**목적**: Overwrite 모드에서 사용자가 `N`을 입력하면 생성이 취소되는지 확인한다.
+
+**실행 순서**
+
+1. Seed 데이터 상태 (Sample 3건)
+2. Overwrite 모드 선택 → 확인 메시지에 `N` 입력
+
+**기대 결과**
+
+- 생성이 중단된다.
+- `data/samples.json`의 내용이 변경되지 않는다. (여전히 3건)
+
+**판정**: 파일 변경 없으면 **PASS** / 파일 변경되거나 crash 시 **FAIL**
+
+---
+
+### 11-6. 의존성 보호 검증
+
+#### TC-16-A. Sample 없을 때 Order 생성 시도
+
+**목적**: Sample 데이터가 없는 상태에서 Order 생성을 시도하면 안내 메시지가 출력되고 중단되는지 확인한다.
+
+**사전 조건**: `data/samples.json`을 `{ "nextId": 1, "items": [] }` 로 교체한다.
+
+**실행 순서**
+
+1. Dummy 데이터 생성 → `2. Order 생성`
+
+**기대 결과**
+
+- `"먼저 Sample 데이터를 생성하세요."` 안내 메시지 출력
+- Order 생성이 중단된다.
+- `data/orders.json` 파일이 변경되지 않는다.
+
+**판정**: 안내 메시지 출력 + 생성 중단 시 **PASS** / 비정상 Order 생성 또는 crash 시 **FAIL**
+
+---
+
+#### TC-16-B. Order 없을 때 ProductionLine 생성 시도
+
+**목적**: Order 데이터가 없는 상태에서 ProductionLine 생성을 시도하면 안내 메시지가 출력되고 중단되는지 확인한다.
+
+**사전 조건**: `data/orders.json`을 `{ "nextId": 1, "items": [] }` 로 교체한다.
+
+**실행 순서**
+
+1. Dummy 데이터 생성 → `3. ProductionLine 생성`
+
+**기대 결과**
+
+- `"먼저 Order 데이터를 생성하세요."` 안내 메시지 출력
+- ProductionLine 생성이 중단된다.
+
+**판정**: 안내 메시지 출력 + 생성 중단 시 **PASS** / 비정상 생성 또는 crash 시 **FAIL**
+
+---
+
+#### TC-16-C. 전체 생성 — 의존성 순서 준수
+
+**목적**: `4. 전체 생성` 선택 시 Sample → Order → ProductionLine 순서로 생성되는지 확인한다.
+
+**사전 조건**: 기존 데이터 파일을 모두 삭제한다.
+
+**실행 순서**
+
+1. Dummy 데이터 생성 → `4. 전체 생성`
+2. 수량 입력 (예: Sample 10, Order 50, ProductionLine 50)
+3. Overwrite 모드 선택
+
+**기대 결과**
+
+- `data/samples.json` → `data/orders.json` → `data/production_lines.json` 순서로 파일이 생성된다.
+- Order의 `sampleId`가 생성된 Sample ID 범위 (1 ~ 10) 내에 있다.
+- ProductionLine의 `orderId`가 생성된 Order ID 범위 (1 ~ 50) 내에 있다.
+
+**판정**: 순서 준수 + 참조 ID 유효 시 **PASS** / 순서 위반 또는 참조 ID 범위 초과 시 **FAIL**
+
+---
+
+### 11-7. 수량 입력 오류 처리 검증
+
+#### TC-17-A. 0 이하 수량 입력
+
+**목적**: 0 또는 음수 입력 시 재입력을 요청하는지 확인한다.
+
+**실행 순서**
+
+1. Dummy 데이터 생성 → `1. Sample 생성`
+2. 수량 `0` 입력
+
+**기대 결과**: `"1 이상의 수를 입력하세요."` 출력 후 재입력 대기
+
+**판정**: 재입력 요청 시 **PASS** / 생성 진행 또는 crash 시 **FAIL**
+
+---
+
+#### TC-17-B. 최대치 초과 수량 입력
+
+**목적**: 최대치를 초과한 수량 입력 시 재입력을 요청하는지 확인한다.
+
+**실행 순서**
+
+1. Sample 생성 → 수량 `1001` 입력
+
+**기대 결과**: `"최대 1000건까지 가능합니다."` 출력 후 재입력 대기
+
+**판정**: 재입력 요청 시 **PASS** / 생성 진행 또는 crash 시 **FAIL**
+
+---
+
+#### TC-17-C. 숫자가 아닌 입력
+
+**목적**: 문자열 입력 시 재입력을 요청하는지 확인한다.
+
+**실행 순서**
+
+1. Sample 생성 → 수량 `abc` 입력
+
+**기대 결과**: `"숫자를 입력하세요."` 출력 후 재입력 대기
+
+**판정**: 재입력 요청 시 **PASS** / crash 또는 비정상 값 처리 시 **FAIL**
+
+---
+
 ## 테스트 결과 기록표
+
+### DataMonitor 기능 테스트
 
 | TC | 분류 | 테스트 항목 | 결과 | 비고 |
 |---|---|---|---|---|
@@ -650,5 +1094,32 @@ main.cpp
 | TC-10-D | Clean Code | 금지 패턴 | | |
 | TC-10-E | Clean Code | 함수 규모 | | |
 | TC-10-F | Clean Code | 매직 스트링 / 매직 넘버 | | |
+
+### Dummy 데이터 생성 테스트
+
+| TC | 분류 | 테스트 항목 | 결과 | 비고 |
+|---|---|---|---|---|
+| TC-11-A | 메뉴 | Dummy 데이터 생성 메뉴 진입 | | |
+| TC-11-B | 메뉴 | 뒤로가기 처리 | | |
+| TC-12-A | JSON 생성 | Sample JSON 파일 생성 확인 | | |
+| TC-12-B | JSON 생성 | Order JSON 파일 생성 확인 | | |
+| TC-12-C | JSON 생성 | ProductionLine JSON 파일 생성 확인 | | |
+| TC-13-A | 개수 검증 | Sample 생성 수량 정확성 | | |
+| TC-13-B | 개수 검증 | Order 1,000건 생성 수량 정확성 | | |
+| TC-13-C | 개수 검증 | nextId 연속성 (Append 모드) | | |
+| TC-13-D | 개수 검증 | 최솟값 / 최댓값 경계 입력 | | |
+| TC-14-A | 랜덤 검증 | Order Status 분포 확인 | | |
+| TC-14-B | 랜덤 검증 | DONE status progress=100 고정 | | |
+| TC-14-C | 랜덤 검증 | Sample yield 범위 확인 | | |
+| TC-14-D | 랜덤 검증 | 매 실행마다 다른 결과 확인 | | |
+| TC-15-A | Overwrite | Append 모드 기존 데이터 보존 | | |
+| TC-15-B | Overwrite | Overwrite 모드 완전 교체 | | |
+| TC-15-C | Overwrite | Overwrite 확인 N 입력 시 취소 | | |
+| TC-16-A | 의존성 | Sample 없이 Order 생성 시도 | | |
+| TC-16-B | 의존성 | Order 없이 ProductionLine 생성 시도 | | |
+| TC-16-C | 의존성 | 전체 생성 의존성 순서 준수 | | |
+| TC-17-A | 입력 오류 | 0 이하 수량 입력 | | |
+| TC-17-B | 입력 오류 | 최대치 초과 수량 입력 | | |
+| TC-17-C | 입력 오류 | 숫자가 아닌 입력 | | |
 
 결과: `PASS` / `FAIL` / `SKIP`
