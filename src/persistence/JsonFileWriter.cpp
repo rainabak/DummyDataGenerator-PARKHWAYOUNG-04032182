@@ -1,4 +1,5 @@
 #include "JsonFileWriter.h"
+#include "JsonFileStorage.h"
 #include "JsonUtil.h"
 #include <filesystem>
 #include <fstream>
@@ -13,15 +14,26 @@ JsonFileWriter::JsonFileWriter(const std::string& dataDir)
 
 // ── public ───────────────────────────────────────────────────────────────────
 
-void JsonFileWriter::writeSamples(const std::vector<Sample>& samples, int nextId) const
+void JsonFileWriter::writeSamples(const std::vector<Sample>& samples, int nextId, bool append) const
 {
     const std::string path = m_dataDir + "/samples.json";
-    std::cout << "[JsonFileWriter] Sample 저장 시작 — " << samples.size() << "건\n";
+    std::cout << "[JsonFileWriter] Sample 저장 시작 — " << samples.size() << "건"
+              << (append ? " (Append 모드)" : " (Overwrite 모드)") << "\n";
 
     std::string items;
+
+    if (append)
+    {
+        for (const auto& raw : JsonUtil::splitObjects(JsonFileStorage(path).load()))
+        {
+            if (!items.empty()) items += ",\n    ";
+            items += raw;
+        }
+    }
+
     for (size_t i = 0; i < samples.size(); ++i)
     {
-        if (i > 0) items += ",\n    ";
+        if (!items.empty()) items += ",\n    ";
         items += serializeSample(samples[i]);
     }
 
@@ -29,15 +41,26 @@ void JsonFileWriter::writeSamples(const std::vector<Sample>& samples, int nextId
     std::cout << "[JsonFileWriter] 저장 완료 — " << path << "\n";
 }
 
-void JsonFileWriter::writeOrders(const std::vector<Order>& orders, int nextId) const
+void JsonFileWriter::writeOrders(const std::vector<Order>& orders, int nextId, bool append) const
 {
     const std::string path = m_dataDir + "/orders.json";
-    std::cout << "[JsonFileWriter] Order 저장 시작 — " << orders.size() << "건\n";
+    std::cout << "[JsonFileWriter] Order 저장 시작 — " << orders.size() << "건"
+              << (append ? " (Append 모드)" : " (Overwrite 모드)") << "\n";
 
     std::string items;
+
+    if (append)
+    {
+        for (const auto& raw : JsonUtil::splitObjects(JsonFileStorage(path).load()))
+        {
+            if (!items.empty()) items += ",\n    ";
+            items += raw;
+        }
+    }
+
     for (size_t i = 0; i < orders.size(); ++i)
     {
-        if (i > 0) items += ",\n    ";
+        if (!items.empty()) items += ",\n    ";
         items += serializeOrder(orders[i]);
     }
 
@@ -45,20 +68,40 @@ void JsonFileWriter::writeOrders(const std::vector<Order>& orders, int nextId) c
     std::cout << "[JsonFileWriter] 저장 완료 — " << path << "\n";
 }
 
-void JsonFileWriter::writeProductionLines(const std::vector<ProductionLine>& lines, int nextId) const
+void JsonFileWriter::writeProductionLines(const std::vector<ProductionLine>& lines, int nextId, bool append) const
 {
     const std::string path = m_dataDir + "/production_lines.json";
-    std::cout << "[JsonFileWriter] ProductionLine 저장 시작 — " << lines.size() << "건\n";
+    std::cout << "[JsonFileWriter] ProductionLine 저장 시작 — " << lines.size() << "건"
+              << (append ? " (Append 모드)" : " (Overwrite 모드)") << "\n";
 
     std::string items;
+
+    if (append)
+    {
+        for (const auto& raw : JsonUtil::splitObjects(JsonFileStorage(path).load()))
+        {
+            if (!items.empty()) items += ",\n    ";
+            items += raw;
+        }
+    }
+
     for (size_t i = 0; i < lines.size(); ++i)
     {
-        if (i > 0) items += ",\n    ";
+        if (!items.empty()) items += ",\n    ";
         items += serializeProductionLine(lines[i]);
     }
 
     writeFile(path, buildJson(items, nextId));
     std::cout << "[JsonFileWriter] 저장 완료 — " << path << "\n";
+}
+
+int JsonFileWriter::readNextId(const std::string& filename) const
+{
+    const std::string path = m_dataDir + "/" + filename;
+    const std::string json = JsonFileStorage(path).load();
+    if (json.empty()) return 1;
+    const int nextId = JsonUtil::readInt(json, "nextId");
+    return nextId > 0 ? nextId : 1;
 }
 
 // ── private ──────────────────────────────────────────────────────────────────
@@ -139,10 +182,10 @@ std::string JsonFileWriter::serializeOrder(const Order& o) const
 std::string JsonFileWriter::serializeProductionLine(const ProductionLine& pl) const
 {
     return std::string("{ ")
-        + "\"id\": "          + std::to_string(pl.id)
-        + ", \"orderId\": "   + std::to_string(pl.orderId)
+        + "\"id\": "           + std::to_string(pl.id)
+        + ", \"orderId\": "    + std::to_string(pl.orderId)
         + ", \"lineName\": \"" + JsonUtil::escapeString(pl.lineName) + "\""
-        + ", \"status\": \""  + JsonUtil::escapeString(pl.status)   + "\""
-        + ", \"progress\": "  + std::to_string(pl.progress)
+        + ", \"status\": \""   + JsonUtil::escapeString(pl.status)   + "\""
+        + ", \"progress\": "   + std::to_string(pl.progress)
         + " }";
 }

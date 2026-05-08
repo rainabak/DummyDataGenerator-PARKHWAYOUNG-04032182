@@ -14,8 +14,8 @@ public:
                      ProductionLineGenerator& productionLineGen);
 
     void generateSamples(const GeneratorConfig& config);
-    void generateOrders(const GeneratorConfig& config);
-    void generateProductionLines(const GeneratorConfig& config);
+    bool generateOrders(const GeneratorConfig& config);
+    bool generateProductionLines(const GeneratorConfig& config);
     void generateAll(const GeneratorConfig& sampleConfig,
                      const GeneratorConfig& orderConfig,
                      const GeneratorConfig& lineConfig);

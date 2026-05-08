@@ -27,6 +27,7 @@
 #include "persistence/JsonFileWriter.h"
 #include "services/GeneratorService.h"
 #include "views/ConsoleView.h"
+#include "controllers/DummyDataController.h"
 
 int main()
 {
@@ -47,6 +48,7 @@ int main()
     ProductionLineGenerator productionLineGen(random);
     GeneratorService        generatorService(writer, sampleGen, orderGen, productionLineGen);
     ConsoleView             consoleView;
+    DummyDataController     dummyCtrl(consoleView, generatorService);
 
     // ── View ─────────────────────────────────────────────────────
     MainMenuView       mainView;
@@ -69,7 +71,16 @@ int main()
                               productionLineCtrl,
                               monitoringCtrl,
                               shipmentCtrl);
-    controller.run();
+
+    // ── 최상위 메뉴 ──────────────────────────────────────────────
+    while (true)
+    {
+        consoleView.showMainMenu();
+        const int mode = consoleView.readMainMenuChoice();
+        if      (mode == 0) break;
+        else if (mode == 1) controller.run();
+        else if (mode == 2) dummyCtrl.run();
+    }
 
     return 0;
 }

@@ -10,9 +10,11 @@ class JsonFileWriter
 public:
     explicit JsonFileWriter(const std::string& dataDir);
 
-    void writeSamples(const std::vector<Sample>&         samples, int nextId) const;
-    void writeOrders(const std::vector<Order>&           orders,  int nextId) const;
-    void writeProductionLines(const std::vector<ProductionLine>& lines,   int nextId) const;
+    void writeSamples(const std::vector<Sample>&              samples, int nextId, bool append = false) const;
+    void writeOrders(const std::vector<Order>&               orders,  int nextId, bool append = false) const;
+    void writeProductionLines(const std::vector<ProductionLine>& lines, int nextId, bool append = false) const;
+
+    int  readNextId(const std::string& filename) const;
 
 private:
     std::string m_dataDir;

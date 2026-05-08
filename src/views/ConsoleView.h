@@ -12,7 +12,9 @@ public:
     void showError(const std::string& message)  const;
     void showOverwriteWarning()                  const;
 
-    int  readMenuChoice()   const;
-    int  readCount(int max) const;
-    bool readOverwrite()    const;
+    int  readMainMenuChoice()                                    const;
+    int  readMenuChoice()                                        const;
+    int  readCount(int max, const std::string& target = "")     const;
+    bool readOverwrite()                                         const;
+    void pause()                                                 const;
 };
