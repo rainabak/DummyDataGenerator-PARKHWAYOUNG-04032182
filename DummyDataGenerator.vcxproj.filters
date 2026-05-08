@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="소스 파일">
@@ -25,6 +25,18 @@
     <Filter Include="헤더 파일\utils">
       <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000004}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\generators">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\persistence">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\services">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\repositories">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000008}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -33,10 +45,10 @@
     <ClCompile Include="src\utils\ConsoleUtil.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\views\MainMenuView.cpp">
+    <ClCompile Include="src\utils\RandomUtil.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\controllers\MainController.cpp">
+    <ClCompile Include="src\views\MainMenuView.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\views\SampleView.cpp">
@@ -54,6 +66,12 @@
     <ClCompile Include="src\views\ShipmentView.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\views\ConsoleView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controllers\MainController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="src\controllers\SampleController.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -69,12 +87,60 @@
     <ClCompile Include="src\controllers\ShipmentController.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\controllers\DummyDataController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\generators\SampleGenerator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\generators\OrderGenerator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\generators\ProductionLineGenerator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\persistence\JsonFileStorage.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\persistence\JsonUtil.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\persistence\JsonFileWriter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\repositories\SampleRepository.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\repositories\OrderRepository.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\MonitoringService.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\GeneratorService.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\models\Item.h">
       <Filter>헤더 파일\models</Filter>
     </ClInclude>
     <ClInclude Include="src\models\ItemRepository.h">
+      <Filter>헤더 파일\models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\models\Sample.h">
+      <Filter>헤더 파일\models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\models\Order.h">
+      <Filter>헤더 파일\models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\models\OrderSummary.h">
+      <Filter>헤더 파일\models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\models\SampleStatus.h">
+      <Filter>헤더 파일\models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\models\ProductionLine.h">
       <Filter>헤더 파일\models</Filter>
     </ClInclude>
     <ClInclude Include="src\views\IView.h">
@@ -101,6 +167,9 @@
     <ClInclude Include="src\views\ShipmentView.h">
       <Filter>헤더 파일\views</Filter>
     </ClInclude>
+    <ClInclude Include="src\views\ConsoleView.h">
+      <Filter>헤더 파일\views</Filter>
+    </ClInclude>
     <ClInclude Include="src\controllers\IController.h">
       <Filter>헤더 파일\controllers</Filter>
     </ClInclude>
@@ -125,11 +194,56 @@
     <ClInclude Include="src\controllers\ShipmentController.h">
       <Filter>헤더 파일\controllers</Filter>
     </ClInclude>
+    <ClInclude Include="src\controllers\DummyDataController.h">
+      <Filter>헤더 파일\controllers</Filter>
+    </ClInclude>
     <ClInclude Include="src\utils\InputHelper.h">
       <Filter>헤더 파일\utils</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\ConsoleUtil.h">
       <Filter>헤더 파일\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\RandomUtil.h">
+      <Filter>헤더 파일\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\generators\GeneratorConfig.h">
+      <Filter>헤더 파일\generators</Filter>
+    </ClInclude>
+    <ClInclude Include="src\generators\SampleGenerator.h">
+      <Filter>헤더 파일\generators</Filter>
+    </ClInclude>
+    <ClInclude Include="src\generators\OrderGenerator.h">
+      <Filter>헤더 파일\generators</Filter>
+    </ClInclude>
+    <ClInclude Include="src\generators\ProductionLineGenerator.h">
+      <Filter>헤더 파일\generators</Filter>
+    </ClInclude>
+    <ClInclude Include="src\persistence\JsonFileStorage.h">
+      <Filter>헤더 파일\persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="src\persistence\JsonUtil.h">
+      <Filter>헤더 파일\persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="src\persistence\JsonFileWriter.h">
+      <Filter>헤더 파일\persistence</Filter>
+    </ClInclude>
+    <ClInclude Include="src\repositories\ISampleRepository.h">
+      <Filter>헤더 파일\repositories</Filter>
+    </ClInclude>
+    <ClInclude Include="src\repositories\IOrderRepository.h">
+      <Filter>헤더 파일\repositories</Filter>
+    </ClInclude>
+    <ClInclude Include="src\repositories\SampleRepository.h">
+      <Filter>헤더 파일\repositories</Filter>
+    </ClInclude>
+    <ClInclude Include="src\repositories\OrderRepository.h">
+      <Filter>헤더 파일\repositories</Filter>
+    </ClInclude>
+    <ClInclude Include="src\services\MonitoringService.h">
+      <Filter>헤더 파일\services</Filter>
+    </ClInclude>
+    <ClInclude Include="src\services\GeneratorService.h">
+      <Filter>헤더 파일\services</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

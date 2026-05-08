@@ -146,6 +146,14 @@
     <ClCompile Include="src\repositories\SampleRepository.cpp" />
     <ClCompile Include="src\repositories\OrderRepository.cpp" />
     <ClCompile Include="src\services\MonitoringService.cpp" />
+    <ClCompile Include="src\utils\RandomUtil.cpp" />
+    <ClCompile Include="src\generators\SampleGenerator.cpp" />
+    <ClCompile Include="src\generators\OrderGenerator.cpp" />
+    <ClCompile Include="src\generators\ProductionLineGenerator.cpp" />
+    <ClCompile Include="src\persistence\JsonFileWriter.cpp" />
+    <ClCompile Include="src\services\GeneratorService.cpp" />
+    <ClCompile Include="src\views\ConsoleView.cpp" />
+    <ClCompile Include="src\controllers\DummyDataController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\models\Item.h" />
@@ -179,6 +187,16 @@
     <ClInclude Include="src\repositories\OrderRepository.h" />
     <ClInclude Include="src\models\OrderSummary.h" />
     <ClInclude Include="src\services\MonitoringService.h" />
+    <ClInclude Include="src\models\ProductionLine.h" />
+    <ClInclude Include="src\generators\GeneratorConfig.h" />
+    <ClInclude Include="src\generators\SampleGenerator.h" />
+    <ClInclude Include="src\generators\OrderGenerator.h" />
+    <ClInclude Include="src\generators\ProductionLineGenerator.h" />
+    <ClInclude Include="src\persistence\JsonFileWriter.h" />
+    <ClInclude Include="src\services\GeneratorService.h" />
+    <ClInclude Include="src\utils\RandomUtil.h" />
+    <ClInclude Include="src\views\ConsoleView.h" />
+    <ClInclude Include="src\controllers\DummyDataController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\orders.json" />
