@@ -3,8 +3,10 @@
 
 struct Order
 {
-    int         id;
+    int         id           { 0 };
+    int         sampleId     { 0 };
     std::string productName;
-    int         quantity;
+    std::string customerName;
+    int         quantity     { 0 };
     std::string status;
 };

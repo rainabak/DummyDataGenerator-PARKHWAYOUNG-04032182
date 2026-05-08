@@ -1,4 +1,6 @@
 #include <windows.h>
+
+// ── 기존 레이어 ──────────────────────────────────────────────────
 #include "utils/ConsoleUtil.h"
 #include "views/MainMenuView.h"
 #include "views/SampleView.h"
@@ -17,18 +19,36 @@
 #include "repositories/OrderRepository.h"
 #include "services/MonitoringService.h"
 
+// ── DummyDataGenerator 레이어 ────────────────────────────────────
+#include "utils/RandomUtil.h"
+#include "generators/SampleGenerator.h"
+#include "generators/OrderGenerator.h"
+#include "generators/ProductionLineGenerator.h"
+#include "persistence/JsonFileWriter.h"
+#include "services/GeneratorService.h"
+#include "views/ConsoleView.h"
+
 int main()
 {
-    // Persistence layer
+    // ── Persistence ──────────────────────────────────────────────
     JsonFileStorage  sampleStorage("data/samples.json");
     JsonFileStorage  orderStorage("data/orders.json");
     SampleRepository sampleRepo(sampleStorage);
     OrderRepository  orderRepo(orderStorage);
 
-    // Service layer
+    // ── Service ──────────────────────────────────────────────────
     MonitoringService monitoringService(orderRepo, sampleRepo);
 
-    // Views
+    // ── DummyDataGenerator ───────────────────────────────────────
+    RandomUtil              random;
+    JsonFileWriter          writer("data");
+    SampleGenerator         sampleGen(random);
+    OrderGenerator          orderGen(random);
+    ProductionLineGenerator productionLineGen(random);
+    GeneratorService        generatorService(writer, sampleGen, orderGen, productionLineGen);
+    ConsoleView             consoleView;
+
+    // ── View ─────────────────────────────────────────────────────
     MainMenuView       mainView;
     SampleView         sampleView;
     OrderView          orderView;
@@ -36,7 +56,7 @@ int main()
     MonitoringView     monitoringView;
     ShipmentView       shipmentView;
 
-    // Controllers
+    // ── Controller ───────────────────────────────────────────────
     SampleController         sampleCtrl(sampleView, sampleRepo);
     OrderController          orderCtrl(orderView, orderRepo);
     ProductionLineController productionLineCtrl(productionLineView);
