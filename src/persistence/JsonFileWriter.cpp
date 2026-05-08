@@ -104,6 +104,21 @@ int JsonFileWriter::readNextId(const std::string& filename) const
     return nextId > 0 ? nextId : 1;
 }
 
+std::map<int, std::string> JsonFileWriter::readSampleNames() const
+{
+    const std::string path = m_dataDir + "/samples.json";
+    const std::string json = JsonFileStorage(path).load();
+
+    std::map<int, std::string> result;
+    for (const auto& raw : JsonUtil::splitObjects(json))
+    {
+        const int id = JsonUtil::readInt(raw, "id");
+        if (id > 0)
+            result[id] = JsonUtil::readString(raw, "name");
+    }
+    return result;
+}
+
 // ── private ──────────────────────────────────────────────────────────────────
 
 void JsonFileWriter::writeFile(const std::string& path, const std::string& json) const

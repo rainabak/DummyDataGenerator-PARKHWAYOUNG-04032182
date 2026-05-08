@@ -1,4 +1,4 @@
-﻿#include "OrderRepository.h"
+#include "OrderRepository.h"
 #include "../persistence/JsonUtil.h"
 #include <algorithm>
 #include <sstream>
@@ -9,10 +9,12 @@ static std::string toJson(const Order& o)
 {
     std::ostringstream oss;
     oss << "{"
-        << "\"id\":"            << o.id                                  << ","
-        << "\"productName\":\"" << JsonUtil::escapeString(o.productName) << "\","
-        << "\"quantity\":"      << o.quantity                            << ","
-        << "\"status\":\""      << JsonUtil::escapeString(o.status)      << "\""
+        << "\"id\":"              << o.id
+        << ",\"sampleId\":"       << o.sampleId
+        << ",\"productName\":\""  << JsonUtil::escapeString(o.productName)  << "\""
+        << ",\"customerName\":\"" << JsonUtil::escapeString(o.customerName) << "\""
+        << ",\"quantity\":"       << o.quantity
+        << ",\"status\":\""       << JsonUtil::escapeString(o.status)       << "\""
         << "}";
     return oss.str();
 }
@@ -30,15 +32,18 @@ static std::string buildJson(const std::vector<Order>& orders, int nextId)
     return oss.str();
 }
 
+// Order 구조체에 sampleId·customerName이 추가되었으므로
+// aggregate 초기화 대신 멤버별 대입으로 역직렬화한다.
 static Order fromJson(const std::string& obj)
 {
-    return Order
-    {
-        JsonUtil::readInt(obj,    "id"),
-        JsonUtil::readString(obj, "productName"),
-        JsonUtil::readInt(obj,    "quantity"),
-        JsonUtil::readString(obj, "status")
-    };
+    Order o;
+    o.id           = JsonUtil::readInt(obj,    "id");
+    o.sampleId     = JsonUtil::readInt(obj,    "sampleId");
+    o.productName  = JsonUtil::readString(obj, "productName");
+    o.customerName = JsonUtil::readString(obj, "customerName");
+    o.quantity     = JsonUtil::readInt(obj,    "quantity");
+    o.status       = JsonUtil::readString(obj, "status");
+    return o;
 }
 
 static void loadFromJson(const std::string& raw,
@@ -75,7 +80,14 @@ OrderRepository::OrderRepository(JsonFileStorage& storage)
 
 void OrderRepository::add(const Order& order)
 {
-    m_orders.push_back({ m_nextId++, order.productName, order.quantity, order.status });
+    Order newOrder;
+    newOrder.id           = m_nextId++;
+    newOrder.sampleId     = order.sampleId;
+    newOrder.productName  = order.productName;
+    newOrder.customerName = order.customerName;
+    newOrder.quantity     = order.quantity;
+    newOrder.status       = order.status;
+    m_orders.push_back(newOrder);
     persist();
 }
 

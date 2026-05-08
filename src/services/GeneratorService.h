@@ -1,8 +1,12 @@
 #pragma once
+#include <map>
+#include <string>
+#include <vector>
 #include "../generators/GeneratorConfig.h"
 #include "../generators/SampleGenerator.h"
 #include "../generators/OrderGenerator.h"
 #include "../generators/ProductionLineGenerator.h"
+#include "../models/Order.h"
 #include "../persistence/JsonFileWriter.h"
 
 class GeneratorService
@@ -25,4 +29,7 @@ private:
     SampleGenerator&         m_sampleGen;
     OrderGenerator&          m_orderGen;
     ProductionLineGenerator& m_productionLineGen;
+
+    static void applyProductNames(std::vector<Order>&                    orders,
+                                  const std::map<int, std::string>& sampleNames);
 };

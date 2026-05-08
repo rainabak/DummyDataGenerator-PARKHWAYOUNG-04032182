@@ -1,4 +1,5 @@
 #pragma once
+#include <map>
 #include <string>
 #include <vector>
 #include "../models/Sample.h"
@@ -14,7 +15,10 @@ public:
     void writeOrders(const std::vector<Order>&               orders,  int nextId, bool append = false) const;
     void writeProductionLines(const std::vector<ProductionLine>& lines, int nextId, bool append = false) const;
 
-    int  readNextId(const std::string& filename) const;
+    int  readNextId(const std::string& filename)  const;
+
+    // sampleId → name 맵 반환: GeneratorService의 productName 보정에 사용
+    std::map<int, std::string> readSampleNames() const;
 
 private:
     std::string m_dataDir;
