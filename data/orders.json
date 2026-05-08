@@ -1,0 +1,17 @@
+{
+  "nextId": 13,
+  "items": [
+    { "id":  1, "sampleId": 1, "productName": "시료-A형", "customerName": "삼성전자",  "quantity": 3, "status": "RESERVED"  },
+    { "id":  2, "sampleId": 2, "productName": "시료-B형", "customerName": "SK하이닉스","quantity": 2, "status": "RESERVED"  },
+    { "id":  3, "sampleId": 3, "productName": "시료-C형", "customerName": "마이크론",  "quantity": 2, "status": "RESERVED"  },
+    { "id":  4, "sampleId": 1, "productName": "시료-A형", "customerName": "인텔",      "quantity": 4, "status": "PRODUCING" },
+    { "id":  5, "sampleId": 2, "productName": "시료-B형", "customerName": "TSMC",      "quantity": 3, "status": "PRODUCING" },
+    { "id":  6, "sampleId": 1, "productName": "시료-A형", "customerName": "삼성전자",  "quantity": 2, "status": "CONFIRMED" },
+    { "id":  7, "sampleId": 2, "productName": "시료-B형", "customerName": "SK하이닉스","quantity": 5, "status": "CONFIRMED" },
+    { "id":  8, "sampleId": 1, "productName": "시료-A형", "customerName": "퀄컴",      "quantity": 1, "status": "RELEASE"   },
+    { "id":  9, "sampleId": 2, "productName": "시료-B형", "customerName": "엔비디아",  "quantity": 2, "status": "RELEASE"   },
+    { "id": 10, "sampleId": 1, "productName": "시료-A형", "customerName": "애플",      "quantity": 5, "status": "REJECTED"  },
+    { "id": 11, "sampleId": 2, "productName": "시료-B형", "customerName": "마이크론",  "quantity": 3, "status": "REJECTED"  },
+    { "id": 12, "sampleId": 3, "productName": "시료-C형", "customerName": "AMD",       "quantity": 1, "status": "REJECTED"  }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "nextId": 4,
+  "items": [
+    {
+      "id": 1,
+      "name": "시료-A형",
+      "description": "A형 반도체 검사 시료",
+      "stock": 10,
+      "avgProductionTime": 4,
+      "yield": 95.5
+    },
+    {
+      "id": 2,
+      "name": "시료-B형",
+      "description": "B형 반도체 검사 시료",
+      "stock": 3,
+      "avgProductionTime": 6,
+      "yield": 88.2
+    },
+    {
+      "id": 3,
+      "name": "시료-C형",
+      "description": "C형 반도체 검사 시료",
+      "stock": 0,
+      "avgProductionTime": 8,
+      "yield": 72.0
+    }
+  ]
+}

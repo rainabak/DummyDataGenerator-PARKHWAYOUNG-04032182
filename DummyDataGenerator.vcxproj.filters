@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일\models">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\views">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\controllers">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\utils">
+      <UniqueIdentifier>{A1B2C3D4-0001-0001-0001-000000000004}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\ConsoleUtil.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\MainMenuView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controllers\MainController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\SampleView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\OrderView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\ProductionLineView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\MonitoringView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\ShipmentView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controllers\SampleController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controllers\OrderController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controllers\ProductionLineController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controllers\MonitoringController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\controllers\ShipmentController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\models\Item.h">
+      <Filter>헤더 파일\models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\models\ItemRepository.h">
+      <Filter>헤더 파일\models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\IView.h">
+      <Filter>헤더 파일\views</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\ItemView.h">
+      <Filter>헤더 파일\views</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\MainMenuView.h">
+      <Filter>헤더 파일\views</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\SampleView.h">
+      <Filter>헤더 파일\views</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\OrderView.h">
+      <Filter>헤더 파일\views</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\ProductionLineView.h">
+      <Filter>헤더 파일\views</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\MonitoringView.h">
+      <Filter>헤더 파일\views</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\ShipmentView.h">
+      <Filter>헤더 파일\views</Filter>
+    </ClInclude>
+    <ClInclude Include="src\controllers\IController.h">
+      <Filter>헤더 파일\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\controllers\ItemController.h">
+      <Filter>헤더 파일\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\controllers\MainController.h">
+      <Filter>헤더 파일\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\controllers\SampleController.h">
+      <Filter>헤더 파일\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\controllers\OrderController.h">
+      <Filter>헤더 파일\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\controllers\ProductionLineController.h">
+      <Filter>헤더 파일\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\controllers\MonitoringController.h">
+      <Filter>헤더 파일\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\controllers\ShipmentController.h">
+      <Filter>헤더 파일\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\InputHelper.h">
+      <Filter>헤더 파일\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\ConsoleUtil.h">
+      <Filter>헤더 파일\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
