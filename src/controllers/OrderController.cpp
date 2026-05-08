@@ -40,11 +40,12 @@ void OrderController::handleChoice(int choice)
 
 void OrderController::handleCreate()
 {
-    std::string productName = m_view.promptProductName();
-    int         quantity    = m_view.promptQuantity();
-    std::string status      = m_view.promptStatus();
+    Order o;
+    o.productName = m_view.promptProductName();
+    o.quantity    = m_view.promptQuantity();
+    o.status      = m_view.promptStatus();
 
-    m_repo.add(Order{ 0, productName, quantity, status });
+    m_repo.add(o);
     m_view.showMessage("주문이 등록되었습니다.");
 }
 
@@ -78,11 +79,16 @@ void OrderController::handleUpdate()
     }
 
     m_view.showOrder(*found);
-    std::string productName = m_view.promptProductName();
-    int         quantity    = m_view.promptQuantity();
-    std::string status      = m_view.promptStatus();
 
-    if (m_repo.update(Order{ found->id, productName, quantity, status }))
+    Order updated;
+    updated.id          = found->id;
+    updated.sampleId    = found->sampleId;
+    updated.customerName = found->customerName;
+    updated.productName = m_view.promptProductName();
+    updated.quantity    = m_view.promptQuantity();
+    updated.status      = m_view.promptStatus();
+
+    if (m_repo.update(updated))
         m_view.showMessage("주문이 수정되었습니다.");
     else
         m_view.showMessage("수정에 실패했습니다.");
